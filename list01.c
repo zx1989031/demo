@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <iostream>
 
 int Fbi(int i){
     if(i<2)
@@ -11,7 +12,7 @@ int main()
 {
     int i;
     int a[40];
-    a[0] = 0;
+    a[0] = 0; 
     a[1] = 1;
     printf(" %d " ,a[0]);
     printf(" %d " ,a[1]);
@@ -113,3 +114,56 @@ Status DeQueue(LinkQueue *Q,QElemType *e)
     free(p);
     return OK;
 }
+
+// T为非空串，若主串S中第pos个字符之后存在T相等的子串
+//则返回第一个这样的子串在S中的位置，否则返回0
+int Index(String S,String T,int pos)
+{
+    int n,m,i;
+    String sub;
+    if(pos>0)
+    {
+        n = StrLength(S);
+        m = StrLength(T);
+        i = pos;
+        while(i<=n-m+1)
+        {
+            SubString(sub,S,i,m);
+            if(StrCompare(sub,T) !=0)
+                ++i;
+            else
+                return i;
+        }
+    }
+    return 0;
+}
+
+//返回子串T在主串S中第pos个字符之后的位置，若不存在，则函数返回值为0
+// T非空，1<=pos<=StrLength(s)
+
+int Index(String S,String T,int pos)
+{
+    int i = pos; //i用于主串S中当前位置下标，若pos不为1
+                // 则从pos位置开始匹配
+                
+    int j = 1;  //j用于子串T中当前位置下标值
+
+    while(i<=S[0] && j<=T[0])
+    {
+        if(S[i] ==T[j])
+        {
+            ++j;
+            ++j;
+        }
+        else
+        {
+            i = i-j+2;
+            j=1;
+        }
+    }
+    if(j>T[0])
+        return i-T[0];
+    else
+        return 0;
+}
+
